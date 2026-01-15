@@ -37,7 +37,7 @@ async def run_tests():
     ]
 
     print(f"\n{'-'*50}")
-    print(f"{'Exchange':<15} | {'Latency (ms)':<12} | {'Status':<10}")
+    print(f"{'Exchange':<15} | {'Latency (ms)':<12} | {'Status':<10} | {'Endpoint'}")
     print(f"{'-'*50}")
 
     # Use asyncio.to_thread to run synchronous measure() calls concurrently
@@ -56,7 +56,9 @@ async def run_tests():
         color = COLORS.get(status, COLORS["RESET"])
         latency_str = f"{latency:.2f}" if latency != float('inf') else "N/A"
         
-        row = f"{name:<15} | {latency_str:<12} | {color}{status:<10}{COLORS['RESET']}"
+        endpoint = res.get('endpoint', 'N/A')
+        
+        row = f"{name:<15} | {latency_str:<12} | {color}{status:<10}{COLORS['RESET']} | {endpoint}"
         if error:
             row += f" (Error: {error})"
         
